@@ -1,0 +1,32 @@
+.overlap-grid {
+	width: 75%;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+}
+
+.overlap-text,
+.overlap-img {
+	grid-row: 1/2;
+}
+.overlap-img {
+	grid-column: 5/9;
+}
+
+.overlap-text {
+	background-color: rgba(0, 0, 0, 0.6);
+	color: white;
+	backdrop-filter: blur(120px);
+	border-radius: 8px;
+	padding: 6px 32px;
+	text-align: justify;
+	grid-column: 2/6;
+	align-self: center;
+}
+
+.instructor-text {
+	background-color: rgba(255, 255, 255, 0.7);
+	backdrop-filter: blur(200px);
+	color: black;
+	border-radius: 6px;
+}
