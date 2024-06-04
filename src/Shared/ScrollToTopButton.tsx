@@ -1,34 +1,68 @@
-import { useEffect, useState } from "react";
-import { BsArrowUpCircle } from "react-icons/bs";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { MdMessage, MdOutlineClose } from "react-icons/md";
+import { socials } from "./constants";
+import { social } from "./types";
 
 function ScrollToTopButton() {
-	const [position, setPosition] = useState<number>(0);
-	const handleSetToTop = () => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+	const [viewContacts, setViewContacts] = useState(false);
+	const handleViewContacts = () => {
+		setViewContacts(!viewContacts);
 	};
-	const handleScroll = () => {
-		setPosition(window.scrollY);
+	const iconVariants = {
+		hidden: { opacity: 0, y: 20 },
+		visible: { opacity: 1, y: 0 },
+		exit: { opacity: 0, y: -20 },
 	};
-	useEffect(() => {
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, []);
+	const buttonVariants = {
+		initial: { scale: 1 },
+		hover: { scale: 1.1 },
+		tap: { scale: 0.9 },
+	};
 	return (
 		<motion.button
-			initial={{ x: -20, y: 20, opacity: 0 }}
-			animate={{ x: 0, y: 0, opacity: 1 }}
-			transition={{ delay: 0.6, duration: 0.4 }}
-			onClick={handleSetToTop}
+			variants={buttonVariants}
+			initial="initial"
+			whileHover="hover"
+			whileTap="tap"
+			onClick={handleViewContacts}
 			style={{ zIndex: 10000 }}
-			className={`fixed bottom-0 w-16  h-16 items-center justify-center rounded-lg right-2 mx-auto text-white bg-primary-orange    ${
-				position > 20 ? " flex " : " hidden "
-			}  `}>
-			<div className="flex items-center justify-between ">
-				<BsArrowUpCircle className="block w-8 h-8 text-black bg-white rounded-full" />
+			className="fixed bottom-0 w-16 rounded-lg right-2 ">
+			{viewContacts &&
+				socials.map((soc: social) => (
+					<div className="flex flex-col items-center w-16">
+						<motion.a
+							key={crypto.randomUUID()}
+							href={soc.link}
+							variants={iconVariants}
+							transition={{ duration: 0.5 }}
+							target="_blank"
+							className="block px-2 md:py-5 md:px-0 md:gap-4">
+							{soc.icon}
+						</motion.a>
+					</div>
+				))}
+			<div className="flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-light-chocolate">
+				<div className="flex items-center justify-between ">
+					{viewContacts ? (
+						<motion.button
+							initial={{ opacity: 0, rotate: -180 }}
+							animate={{ opacity: 1, rotate: 0 }}
+							exit={{ opacity: 0, rotate: 180 }}
+							transition={{ duration: 0.5 }}>
+							<MdOutlineClose className="block w-8 h-8 text-white rounded-full" />
+						</motion.button>
+					) : (
+						<motion.button
+							key="whatsapp"
+							initial={{ opacity: 0, rotate: 180 }}
+							animate={{ opacity: 1, rotate: 0 }}
+							exit={{ opacity: 0, rotate: -180 }}
+							transition={{ duration: 0.5 }}>
+							<MdMessage className="block w-8 h-8 text-white rounded-full" />
+						</motion.button>
+					)}
+				</div>
 			</div>
 		</motion.button>
 	);

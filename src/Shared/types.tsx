@@ -44,5 +44,5 @@ export interface portfolio {
 	phone: string;
 	profile: string;
 	bio: string;
-	cv: string;
+	cv: File | string;
 }

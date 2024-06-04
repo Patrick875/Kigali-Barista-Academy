@@ -1,21 +1,22 @@
-import { db } from "../../firebase-config";
-import { collection, addDoc } from "firebase/firestore";
 import { ChangeEvent, useState } from "react";
+import { db } from "../../firebase-config"; // Ensure Firebase is configured
+import { collection, addDoc } from "firebase/firestore";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
-import { fileToDataURL } from "../../Shared/constants";
 import { BiImageAdd } from "react-icons/bi";
 import { FaFilePdf } from "react-icons/fa";
 import BackButton from "../../Shared/BackButton";
 import { portfolio } from "../../Shared/types";
 import ReactQuill from "react-quill";
+import axios, { AxiosProgressEvent, AxiosRequestConfig } from "axios";
+import { Progress } from "flowbite-react";
 
-interface img {
-	data: string;
-	url: string;
-}
-interface cvFile extends img {
+interface FileObject {
 	name: string;
+	url: string
+}
+interface UploadedFile extends FileObject {
+	data?: string;
 }
 
 async function addDataToFireStore(port: portfolio) {
@@ -34,52 +35,96 @@ async function addDataToFireStore(port: portfolio) {
 function AddStudentPortfolio() {
 	const { register, handleSubmit, reset, control } = useForm<portfolio>();
 	const [bio, setBio] = useState("");
-	const [images, setImages] = useState<img[]>([]);
-	const [cvs, setCvs] = useState<cvFile[]>([]);
-	const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-		const files = e.target.files;
-		let imagesArray: img[] = [];
+	const [images, setImages] = useState<UploadedFile[]>([]);
+	const [cvs, setCvs] = useState<UploadedFile[]>([]);
+	const [loading, setLoading] = useState(false);
+	const [imageUploading, setImagesUploading] = useState(false);
+	const [pdfUploading, setPdfUploading] = useState(false);
+	const [progress, setProgress] = useState<number>(0);
 
-		if (files) {
-			imagesArray = await Promise.all(
-				Array.from(files).map(async (file) => {
-					const dataUrl: string = await fileToDataURL(file);
-					return {
-						url: URL.createObjectURL(file),
-						data: dataUrl,
-					};
-				})
-			);
+	const uploadToCloudinary = async (file: File, fieldName: string) => {
+		let result: string = "";
+		const url = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_APP_NAME
+			}/image/upload`;
+		const formData = new FormData();
+		formData.append("file", file);
+		formData.append("folder", "KBA_DOCS");
+		formData.append("upload_preset", "ae7sn532");
+
+		const config: AxiosRequestConfig = {
+			onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+				const completedUpload = Math.round(
+					(progressEvent.loaded / (progressEvent.total ? progressEvent.total : 100)) * 100
+				);
+				setProgress(() => completedUpload);
+			},
+		};
+
+		if (fieldName === "profile") {
+			setImagesUploading(true);
+		} else {
+			setPdfUploading(true);
 		}
-		setImages([...imagesArray]);
+		await axios
+			.post(url, formData, config)
+			.then((res) => {
+				console.log("res", res);
+				result = res.data.secure_url;
+			})
+			.catch((err) => {
+				console.log("errroror", err);
+			});
+
+		setImagesUploading(false);
+		setPdfUploading(false);
+
+		return result;
 	};
-	const handleCVChange = async (e: ChangeEvent<HTMLInputElement>) => {
+
+	const handleFileChange = async (
+		e: ChangeEvent<HTMLInputElement>,
+		fieldName: string
+	) => {
 		const files = e.target.files;
-		let cvsArray: cvFile[] = [];
-
+		let filesArray: FileObject[] = [];
 		if (files) {
-			cvsArray = await Promise.all(
+			filesArray = await Promise.all(
 				Array.from(files).map(async (file) => {
-					console.log("file", file);
-
-					const dataUrl: string = await fileToDataURL(file);
+					const url = await uploadToCloudinary(file, fieldName);
 					return {
-						url: URL.createObjectURL(file),
-						data: dataUrl,
 						name: file.name,
+						url: url,
 					};
 				})
 			);
 		}
-		setCvs([...cvsArray]);
+
+		if (fieldName === "profile") {
+			setImages(filesArray);
+		} else if (fieldName === "cv") {
+			setCvs(filesArray);
+		}
 	};
+
 	const submitForm = async (data: portfolio) => {
+		setLoading(true);
+		const profileUrl = images.length > 0 ? images[0].url : "";
+		const cvUrl = cvs.length > 0 ? cvs[0].url : "";
+
 		const added = await addDataToFireStore({
 			...data,
-			profile: images.length > 0 ? images[0].data : "",
+			profile: profileUrl,
 			bio: bio,
-			cv: cvs.length > 0 ? cvs[0].data : "",
-		});
+			cv: cvUrl,
+		})
+			.catch((err) => {
+				console.log("err", err);
+				toast.error("Upload failed");
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+
 		if (added) {
 			reset();
 			setImages([]);
@@ -90,6 +135,7 @@ function AddStudentPortfolio() {
 			console.log("error");
 		}
 	};
+
 	return (
 		<div>
 			<BackButton />
@@ -150,12 +196,9 @@ function AddStudentPortfolio() {
 					<div className="w-full p-4 md:w-1/2">
 						<div>
 							<div>
-								<p className="my-2 text-xs font-semibold text-gray-700">
-									Profile
-								</p>
 								<label
 									htmlFor="profile"
-									className=" border-1 cursor-pointer border-orange-900 gap-4 bg-orange-50 p-2 rounded-[4px] flex items-center  my-2 text-xs font-semibold text-gray-700 ">
+									className="border-1 cursor-pointer border-orange-900 gap-4 bg-orange-50 p-2 rounded-[4px] flex items-center  my-2 text-xs font-semibold text-gray-700 ">
 									<BiImageAdd className="text-2xl" />
 									<p>
 										{images && images.length !== 0
@@ -173,7 +216,7 @@ function AddStudentPortfolio() {
 											accept="image/*"
 											onChange={(e) => {
 												field.onChange(e);
-												handleFileChange(e);
+												handleFileChange(e, "profile");
 											}}
 											style={{ display: "none" }}
 										/>
@@ -185,20 +228,34 @@ function AddStudentPortfolio() {
 									images.map((img) => (
 										<img
 											key={crypto.randomUUID()}
-											src={img.data}
-											className="h-48  rounded-[8px]"
+											src={img.url}
+											alt={img.name}
+											className="h-48 rounded-[8px]"
 										/>
 									))
 								) : (
 									<p className="font-bold">No profile image added</p>
 								)}
 							</div>
+							<div className="w-100">
+								{imageUploading && (
+									<Progress
+										progress={progress}
+										textLabel="uploading"
+										size="lg"
+										labelProgress
+										labelText
+										color="teal"
+									/>
+								)}
+							</div>
 						</div>
+
 						<div>
 							<div>
 								<label
 									htmlFor="cv"
-									className=" border-1 cursor-pointer border-orange-900 gap-4 bg-orange-50 p-2 rounded-[4px] flex items-center  my-2 text-xs font-semibold text-gray-700 ">
+									className="border-1 cursor-pointer border-orange-900 gap-4 bg-orange-50 p-2 rounded-[4px] flex items-center  my-2 text-xs font-semibold text-gray-700 ">
 									<FaFilePdf className="text-2xl" />
 									<p>
 										{cvs && cvs.length !== 0 ? "Change document" : "Upload CV"}
@@ -208,22 +265,27 @@ function AddStudentPortfolio() {
 									name="cv"
 									control={control}
 									render={({ field }) => (
-										<input
-											type="file"
-											id="cv"
-											accept="application/pdf"
-											onChange={(e) => {
-												field.onChange(e);
-												handleCVChange(e);
-											}}
-											style={{ display: "none" }}
-										/>
+										<div>
+											<input
+												type="file"
+												id="cv"
+												accept="application/pdf"
+												onChange={(e) => {
+													field.onChange(e);
+													handleFileChange(e, "cv");
+												}}
+												style={{ display: "none" }}
+											/>
+
+											{field.value && (
+												<p className="font-bold">{(field.value as File).name}</p>
+											)}
+										</div>
 									)}
 								/>
 							</div>
 							<div>
 								{cvs && cvs.length !== 0 ? (
-									cvs.length > 0 &&
 									cvs.map((cv) => (
 										<div
 											key={crypto.randomUUID()}
@@ -236,14 +298,25 @@ function AddStudentPortfolio() {
 									<p className="font-bold">No file uploaded</p>
 								)}
 							</div>
+							<div className="w-100">
+								{pdfUploading && (
+									<Progress
+										progress={progress}
+										textLabel="uploading"
+										size="lg"
+										labelProgress
+										labelText
+										color="teal"
+									/>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>
-
 				<button
 					className="p-2 px-6 font-bold rounded-[4px]   mt-4 text-white bg-light-chocolate "
 					type="submit">
-					Submit
+					{loading ? "uploading ..." : "Submit"}
 				</button>
 			</form>
 		</div>

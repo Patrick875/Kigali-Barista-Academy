@@ -84,12 +84,4 @@ export const clientTestimonies: clientTest[] = [
 		</div>`,
 	},
 ];
-export const fileToDataURL = (file: File): Promise<any> => {
-	return new Promise((resolve) => {
-		const reader = new FileReader();
-		reader.onloadend = () => {
-			resolve(reader.result);
-		};
-		reader.readAsDataURL(file);
-	});
-};
+
