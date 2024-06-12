@@ -40,7 +40,8 @@ export const dashNavs: navItem[] = [
 	{
 		text: "Success Stories",
 		to: "success-stories",
-	}
+	},
+
 ];
 export const socials: social[] = [
 	{

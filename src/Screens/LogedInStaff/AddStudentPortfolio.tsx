@@ -109,7 +109,7 @@ function AddStudentPortfolio() {
 								Email
 							</label>
 							<input
-								type="text"
+								type="email"
 								className="w-full px-3 py-1 border border-gray-500 rounded shadow-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
 								id="email"
 								{...register("email")}
