@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { successStory } from '../../Shared/types';
 import { useAuth } from '../../Context/AuthContext';
 import { getThefirstFiveSentences } from '../../helpers';
 import parse from "html-react-parser";

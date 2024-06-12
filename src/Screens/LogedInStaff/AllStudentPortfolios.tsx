@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { portfolio, singleResponseObject } from "../../Shared/types";
+import { portfolio } from "../../Shared/types";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteItemModal from "../../Shared/DeleteItemModal";
 import { useAuth } from "../../Context/AuthContext";

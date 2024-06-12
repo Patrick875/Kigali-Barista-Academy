@@ -55,11 +55,7 @@ export interface successStory {
 	// social: socialMedia[];
 }
 
-export interface user {
-	email: string;
-	telephone: string;
-	password: string;
-}
+
 
 // export enum socialMedia {
 // 	youtube = 'youtube',
@@ -67,4 +63,4 @@ export interface user {
 // 	twitter = 'twitter',
 // 	email = 'email',
 // }
-export type singleResponseObject = user | portfolio | successStory
+export type singleResponseObject = portfolio | successStory

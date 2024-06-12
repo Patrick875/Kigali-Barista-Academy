@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
-import { singleResponseObject, successStory } from "../../Shared/types";
-import { Link, useNavigate } from "react-router-dom";
+import { successStory } from "../../Shared/types";
+import { Link } from "react-router-dom";
 import DeleteItemModal from "../../Shared/DeleteItemModal";
 import { useAuth } from "../../Context/AuthContext";
 import { IoAddCircle } from "react-icons/io5";
 import { firebaseActions } from "../../API";
-import parse from "html-react-parser";
-import { getThefirstFiveSentences } from "../../helpers";
 import SuccessStory from "./SuccessStory";
 
 
 function AllSuccessStories() {
-    const navigate = useNavigate();
     const { authenticated } = useAuth();
-    const [successStories, setSuccessStories] = useState<singleResponseObject[]>([]);
+    const [successStories, setSuccessStories] = useState<successStory[]>([]);
     const [show, setShow] = useState<boolean>(false);
     const [itemId, setItemId] = useState<string>("");
     useEffect(() => {
@@ -49,7 +46,7 @@ function AllSuccessStories() {
             </div>
             {successStories && successStories.length !== 0 && (
                 <DeleteItemModal
-                    setPorts={setSuccessStories}
+                    setSuccessStories={setSuccessStories}
                     itemId={itemId}
                     show={show}
                     setShow={setShow}

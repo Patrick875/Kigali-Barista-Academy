@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { db } from "../../firebase-config"; // Ensure Firebase is configured
-import { collection, addDoc } from "firebase/firestore";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiImageAdd } from "react-icons/bi";
