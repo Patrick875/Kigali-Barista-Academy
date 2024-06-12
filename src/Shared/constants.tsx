@@ -19,7 +19,7 @@ export const navs: navItem[] = [
 		to: "students",
 	},
 	{
-		text: "Success Stoies",
+		text: "Success Stories",
 		to: "success-stories",
 	},
 	{
