@@ -1,36 +1,27 @@
-import { db } from "../../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { portfolio } from "../../Shared/types";
+import { portfolio, singleResponseObject } from "../../Shared/types";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteItemModal from "../../Shared/DeleteItemModal";
 import { useAuth } from "../../Context/AuthContext";
 import { IoAddCircle } from "react-icons/io5";
+import { firebaseActions } from "../../API";
 
 function AllStudentPortfolios() {
 	const navigate = useNavigate();
 	const { authenticated } = useAuth();
 	const [ports, setPorts] = useState<portfolio[]>([]);
-	const getPorts = async () => {
-		const snapshot = await getDocs(collection(db, "portfolios"));
-		const data: portfolio[] = [];
-		snapshot.forEach((doc) => {
-			data.push({ id: doc.id, ...doc.data() } as portfolio);
-		});
-		return data;
-	};
 	const [show, setShow] = useState<boolean>(false);
 	const [itemId, setItemId] = useState<string>("");
 	useEffect(() => {
 		async function fetchData() {
-			const data = await getPorts();
-			setPorts(data);
+			const data = await firebaseActions.getData('portfolios');
+			setPorts(data as portfolio[]);
 		}
 		fetchData();
 	}, [ports]);
 
 	return (
-		<div className="w-11/12 p-3 mx-auto min-h-[80vh]">
+		<div className="p-3  mx-auto min-h-[80vh]">
 			{!authenticated ? null : (
 				<Link
 					className="flex items-center gap-2  mb-4 rounded-[4px] shadow-lg p-2 text-sm text-white w-fit bg-light-chocolate"
@@ -45,10 +36,10 @@ function AllStudentPortfolios() {
 					Highlighted Student Portfolios{" "}
 				</p>
 			) : null}
-			<div className="grid md:grid-cols-4 rounded-b-[4px]">
+			<div className="grid md:grid-cols-4 gap-4 rounded-b-[4px]">
 				{ports &&
 					ports.length !== 0 &&
-					ports.map((port) => (
+					ports.map((port: portfolio) => (
 						<div
 							key={port.id}
 							className={`${authenticated ? "bg-white" : "bg-slate-100"}`}>
@@ -97,6 +88,7 @@ function AllStudentPortfolios() {
 					itemId={itemId}
 					show={show}
 					setShow={setShow}
+					collectionName="portfolios"
 				/>
 			)}
 		</div>

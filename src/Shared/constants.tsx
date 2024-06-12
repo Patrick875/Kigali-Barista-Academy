@@ -19,6 +19,10 @@ export const navs: navItem[] = [
 		to: "students",
 	},
 	{
+		text: "Success Stoies",
+		to: "success-stories",
+	},
+	{
 		text: "KSB catering",
 		to: "ksbcatering",
 	},
@@ -27,6 +31,16 @@ export const navs: navItem[] = [
 		text: "Contact us",
 		to: "contactus",
 	},
+];
+export const dashNavs: navItem[] = [
+	{
+		text: "Portfolios",
+		to: "",
+	},
+	{
+		text: "Success Stories",
+		to: "success-stories",
+	}
 ];
 export const socials: social[] = [
 	{

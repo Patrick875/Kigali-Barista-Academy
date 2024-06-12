@@ -19,6 +19,11 @@ import { firebaseConfig } from "./firebase-config";
 import { AuthProvider } from "./Context/AuthContext";
 import "react-quill/dist/quill.snow.css";
 import Page404 from "./Shared/Page404";
+import SuccessStories from "./Screens/SuccessStories";
+import AllSuccessStories from "./Screens/LogedInStaff/AllSuccessStories";
+import AddSuccessStory from "./Screens/LogedInStaff/AddSuccessStory";
+import ViewSuccessStory from "./Screens/LogedInStaff/ViewSuccessStory";
+import SuccessStoryReadMore from "./Screens/LogedInStaff/SuccessStoryReadMore";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -42,6 +47,7 @@ function App() {
 							<Route path="ksbcatering" element={<KsbaCatering />} />
 							<Route path="contactus" element={<Contactus />} />
 							<Route path="students" element={<AllStudentPortfolios />} />
+							<Route path="success-stories" element={<SuccessStories />} />
 							<Route path="students/:id" element={<StudentPortfolio />} />
 						</Route>
 						<Route path="/admin" element={<Login />} />
@@ -55,6 +61,12 @@ function App() {
 							<Route index element={<AllStudentPortfolios />} />
 							<Route path="student/:id" element={<ViewStudentPorfolio />} />
 							<Route path="student/add" element={<AddStudentPortfolio />} />
+							<Route path="success-stories" >
+								<Route index element={<AllSuccessStories />} />
+								<Route path='add' element={<AddSuccessStory />} />
+								<Route path=':id' element={<SuccessStoryReadMore />} />
+								<Route path=':id/update' element={<ViewSuccessStory />} />
+							</Route>
 						</Route>
 						<Route path="*" element={<Page404 />} />
 					</Routes>

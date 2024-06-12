@@ -46,3 +46,25 @@ export interface portfolio {
 	bio: string;
 	cv: File | string;
 }
+export interface successStory {
+	id?: string;
+	names: string;
+	image: string;
+	story: string;
+	worksAt: string;
+	// social: socialMedia[];
+}
+
+export interface user {
+	email: string;
+	telephone: string;
+	password: string;
+}
+
+// export enum socialMedia {
+// 	youtube = 'youtube',
+// 	instagram = 'instagram',
+// 	twitter = 'twitter',
+// 	email = 'email',
+// }
+export type singleResponseObject = user | portfolio | successStory

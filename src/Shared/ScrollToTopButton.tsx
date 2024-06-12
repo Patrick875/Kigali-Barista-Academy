@@ -27,7 +27,7 @@ function ScrollToTopButton() {
 			whileTap="tap"
 			onClick={handleViewContacts}
 			style={{ zIndex: 10000 }}
-			className="fixed bottom-0 w-16 rounded-lg right-2 ">
+			className="fixed bottom-0 w-16 bg-white rounded-lg right-2 ">
 			{viewContacts &&
 				socials.map((soc: social) => (
 					<div className="flex flex-col items-center w-16">

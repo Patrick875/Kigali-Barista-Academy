@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
+import TabsNavigation from "./TabsNavigation";
+import { dashNavs } from "../../Shared/constants";
 
 function DashboardLayout() {
 	const auth = getAuth();
@@ -18,7 +20,8 @@ function DashboardLayout() {
 					</button>
 				</div>
 			</nav>
-			<div className="p-4 bg-slate-100 min-h-[90vh]">
+			<div className="p-4 py-0 bg-slate-100 min-h-[90vh]">
+				<TabsNavigation items={dashNavs} />
 				<Outlet />
 			</div>
 		</div>
