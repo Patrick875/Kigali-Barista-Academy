@@ -49,6 +49,7 @@ function App() {
 							<Route path="contactus" element={<Contactus />} />
 							<Route path="students" element={<AllStudentPortfolios />} />
 							<Route path="success-stories" element={<SuccessStories />} />
+							<Route path="success-stories/:id" element={<SuccessStoryReadMore />} />
 							<Route path="students/:id" element={<StudentPortfolio />} />
 						</Route>
 						<Route path="/admin" element={<Login />} />
