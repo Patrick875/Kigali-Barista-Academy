@@ -5,7 +5,7 @@
 	left: 0;
 	width: 100%; /* Make the pseudo-element cover the entire container */
 	height: 20px;
-	background-image: url("./../src/assets/coffee-cup.png"); /* Specify the image URL */
+	background-image: url("/images/coffee-cup.png"); /* Specify the image URL */
 	background-size: contain;
 	background-repeat: no-repeat; /* Adjust sizing as needed */
 	background-position: center;
