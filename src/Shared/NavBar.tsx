@@ -10,7 +10,7 @@ interface navbarProps {
 	setIsMenuToggeled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const NavBar = ({ items, setIsMenuToggeled }: navbarProps) => {
+const NavBar = ({ items, setIsMenuToggeled, isTopOfPage }: navbarProps) => {
 	const isAboveMediumScreens = useMediaQuery("(min-width:1060px");
 
 	return (
@@ -42,7 +42,7 @@ const NavBar = ({ items, setIsMenuToggeled }: navbarProps) => {
 					{items.map((item: navItem) => (
 						<NavLink
 							end
-							className={({ isActive }) => `${isActive ? " relative  bg-white activeTab " : ''} transition-hover duration-150 py-6  text-center px-4  hover:border-b-primary-orange hover:border-b-[1.5px]`}
+							className={({ isActive }) => `${isActive ? isTopOfPage ? "bg-white relative   activeTab" : " relative activeTab " : ''} transition-hover duration-150 py-6  text-center px-4  hover:border-b-primary-orange hover:border-b-[1.5px]`}
 
 							key={item.text}
 							to={item.to}>
