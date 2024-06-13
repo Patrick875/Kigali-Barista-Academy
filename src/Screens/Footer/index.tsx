@@ -57,7 +57,7 @@ function Footer() {
 							<p className="my-6 font-light text-center md:text-left">
 								Tel : +250 786 525 895{" "}
 							</p>
-							<div className="flex flex-col items-center gap-4 px-0 py-0 mx-0 my-0 md:flex-row ">
+							<div className="flex  items-center justify-center md:justify-normal gap-4 px-0 py-0 mx-0 my-0 md:flex-row ">
 								{socials.map((soc: social) => (
 									<a
 										key={crypto.randomUUID()}

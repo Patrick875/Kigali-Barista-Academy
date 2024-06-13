@@ -1,0 +1,14 @@
+.activeTab::before {
+	content: ""; /* Required for the pseudo-element to display */
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%; /* Make the pseudo-element cover the entire container */
+	height: 20px;
+	background-image: url("./../src/assets/coffee-cup.png"); /* Specify the image URL */
+	background-size: contain;
+	background-repeat: no-repeat; /* Adjust sizing as needed */
+	background-position: center;
+	opacity: 1; /* Adjust opacity if desired */
+	z-index: 100;
+}

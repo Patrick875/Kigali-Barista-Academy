@@ -3,6 +3,7 @@ import { useState } from "react";
 import { MdMessage, MdOutlineClose } from "react-icons/md";
 import { socials } from "./constants";
 import { social } from "./types";
+import coffeeIcon from './../assets/cup-of-coffee.png'
 
 function ScrollToTopButton() {
 	const [viewContacts, setViewContacts] = useState(false);
@@ -27,7 +28,7 @@ function ScrollToTopButton() {
 			whileTap="tap"
 			onClick={handleViewContacts}
 			style={{ zIndex: 10000 }}
-			className="fixed bottom-0 w-16 bg-white rounded-lg right-2 ">
+			className="fixed bottom-0 w-16 bg-white rounded-lg right-4 ">
 			{viewContacts &&
 				socials.map((soc: social) => (
 					<div className="flex flex-col items-center w-16">
@@ -42,7 +43,7 @@ function ScrollToTopButton() {
 						</motion.a>
 					</div>
 				))}
-			<div className="flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-light-chocolate">
+			<div className="flex items-center justify-center w-16 h-12 mx-auto rounded-lg bg-light-chocolate">
 				<div className="flex items-center justify-between ">
 					{viewContacts ? (
 						<motion.button
@@ -59,7 +60,7 @@ function ScrollToTopButton() {
 							animate={{ opacity: 1, rotate: 0 }}
 							exit={{ opacity: 0, rotate: -180 }}
 							transition={{ duration: 0.5 }}>
-							<MdMessage className="block w-8 h-8 text-white rounded-full" />
+							<img src={coffeeIcon} alt='coffee-icon' className="block w-8 h-8 text-white rounded-full" />
 						</motion.button>
 					)}
 				</div>

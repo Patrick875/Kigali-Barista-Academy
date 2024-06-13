@@ -1,9 +1,9 @@
 import React from "react";
 import SocialLinks from "./SocialLinks";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { navItem } from "./types";
 import useMediaQuery from "../Hooks/useMediaQuery";
-
+import './additionalCss.css'
 interface navbarProps {
 	items: navItem[];
 	isTopOfPage: boolean;
@@ -23,6 +23,7 @@ const NavBar = ({ items, setIsMenuToggeled }: navbarProps) => {
 								onClick={() => {
 									setIsMenuToggeled((prev) => !prev);
 								}}
+
 								className="block px-2 py-2 text-lg f hover:bg-slate-200 hover:border-b-primary-orange hover:border-bottom-1"
 								key={item.text}
 								to={item.to}>
@@ -39,12 +40,14 @@ const NavBar = ({ items, setIsMenuToggeled }: navbarProps) => {
 			{isAboveMediumScreens && (
 				<div className="flex items-center gap-3">
 					{items.map((item: navItem) => (
-						<Link
-							className="  transition-hover duration-150 py-2  text-center  hover:border-b-primary-orange hover:border-b-[1.5px]"
+						<NavLink
+							end
+							className={({ isActive }) => `${isActive ? " relative  bg-white activeTab " : ''} transition-hover duration-150 py-6  text-center px-4  hover:border-b-primary-orange hover:border-b-[1.5px]`}
+
 							key={item.text}
 							to={item.to}>
 							{item.text}
-						</Link>
+						</NavLink>
 					))}
 				</div>
 			)}

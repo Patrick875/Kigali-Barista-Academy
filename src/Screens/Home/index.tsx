@@ -53,11 +53,11 @@ function HomePage() {
 							<p className="text-lg font-extrabold text-center uppercase font-paprika text-light-chocolate">
 								"Feel The passion"
 							</p>
-							<div className="px-6 pt-1">
-								<h1 className="py-2 text-lg italic font-bold md:text-3xl font-paprika">
+							<div className="md:px-6  pt-1">
+								<h1 className="py-2 text-lg  font-bold md:text-3xl font-paprika">
 									Welcome
 								</h1>
-								<p className="text-lg md:text-2xl font-nunito md:text-justify">
+								<p className="text-lg  md:mt-4 font-nunito md:text-justify">
 									Welcome to Kigali Specialist Barista Academy! We're all about
 									teaching you how to make great coffee and catering for special
 									events. Learn from our experts and make awesome coffee at home
@@ -84,7 +84,7 @@ function HomePage() {
 						</motion.div>
 					</div>
 				</div>
-				<div className="px-4 bg-[rgba(67,32,16,0.92)] text-white py-6   min-h-[60vh] flex flex-col">
+				<div className="md:px-14 px-4 bg-[rgba(67,32,16,0.92)] text-white py-6   min-h-[60vh] flex flex-col">
 					<p className="py-2 text-xl font-bold text-center md:text-3xl md:text-left font-paprika">
 						{" "}
 						KSBA Academy{" "}
@@ -147,7 +147,7 @@ function HomePage() {
 						</div>
 					</div>
 				</div>
-				<div className=" bg-[rgba(255,255,255,0.92)]  px-4 flex flex-col md:flex-row  min-h-[60vh] bg-center bg-cover ">
+				<div className=" bg-[rgba(255,255,255,0.92)]  md:px-14 px-4 flex flex-col md:flex-row  min-h-[60vh] bg-center bg-cover ">
 					<div className="md:w-1/2 w-full  py-3 h-[50vh]">
 						<motion.img
 							initial="hidden"
@@ -193,14 +193,14 @@ function HomePage() {
 						</Link>
 					</motion.div>
 				</div>
-				<section className="px-4 bg-white  min-h-[90vh] flex flex-col py-4">
+				<section className="md:px-14 px-4 bg-white  min-h-[90vh] flex flex-col py-4">
 					<p className=" text-2xl  text-center md:text-left md:text-4xl text-light-chocolate md:max-w-[380px]">
 						Students' Testimonials
 					</p>
 
 					<StudentsTestimonials />
 				</section>
-				<section className="px-4 bg-white  min-h-[60vh] flex flex-col">
+				<section className="md:px-14 px-4 bg-white  min-h-[60vh] flex flex-col">
 					<p className="text-2xl md:text-4xl text-center md:text-left text-light-chocolate md:max-w-[380px]">
 						Clients' Testimonials
 					</p>
@@ -274,18 +274,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
-// {<section className="mt-12 min-h-[60vh] bg-center bg-cover  bg-catering">
-// 	<div className="px-14 min-h-[60vh] flex flex-col justify-center bg-[rgba(255,255,255,0.9)] ">
-// 		<div className="py-3 ">
-// 			<p className="py-6 text-3xl font-bold text-center font-paprika">
-// 				{" "}
-// 				KSB Catering{" "}
-// 			</p>
-// 			<p className="text-xl font-semibold text-center font-paprika text-light-chocolate">
-// 				"Make your events unforgettable with our amazing catering services,
-// 				where we make sure every detail is just right."
-// 			</p>
-// 		</div>
-// 	</div>
-// </section>;}
