@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { MdMessage, MdOutlineClose } from "react-icons/md";
+import { MdOutlineClose } from "react-icons/md";
 import { socials } from "./constants";
 import { social } from "./types";
 import coffeeIcon from './../assets/cup-of-coffee.png'
